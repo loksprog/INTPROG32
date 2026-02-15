@@ -48,6 +48,7 @@
         <!-- Dropdown with username -->
         <div class="dropdown role-logged-in" data-bs-theme="light">
           <button
+            id="userDropdown"
             type="button"
             class="btn btn-dark dropdown-toggle"
             data-bs-toggle="dropdown"
@@ -88,10 +89,12 @@
           <li>CRUD for Employees, Departments, Requests</li>
         </ul>
 
-        <div class="message-container alert alert-info">
+        <div class="alert alert-info">
           <i class="bi bi-exclamation-triangle-fill"></i>
-          <strong>Note:</strong> All data is stored in
-          <code>localStorage</code>. Refresh to reset.
+          <span>
+            <strong>Note:</strong> All data is stored in
+            <code>localStorage</code>. Refresh to reset.
+          </span>
         </div>
 
         <button type="button" class="btn btn-primary">
@@ -125,8 +128,14 @@
             />
           </div>
           <div class="d-flex gap-3">
-            <button type="submit" class="btn btn-success">Sign Up</button>
-            <button type="button" class="btn btn-outline-secondary">
+            <button type="submit" class="btn btn-success" id="submitBtn">
+              Sign Up
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-secondary"
+              id="cancelBtn"
+            >
               Cancel
             </button>
           </div>
@@ -135,7 +144,27 @@
 
       <!-- Verify Email Page -->
       <section class="page" id="verify-page">
-        
+        <h2>Verify Your Email</h2>
+        <div class="alert alert-success">
+          <i class="bi bi-check-square-fill text-success"></i>
+          <span id="verify-message"
+            >A verification link has been sent to .
+          </span>
+        </div>
+        <p>For demo purposes, click below to simulate verification.</p>
+        <div class="d-flex gap-3">
+          <button type="button" class="btn btn-success" id="simulateBtn">
+            <i class="bi bi-check-square-fill text-white"></i> Simulate Email
+            Verification
+          </button>
+          <button
+            type="button"
+            class="btn btn-outline-secondary"
+            id="goToLoginBtn"
+          >
+            Go to Login
+          </button>
+        </div>
       </section>
     </main>
 
