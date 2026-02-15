@@ -28,3 +28,11 @@ body.authenticated .role-logged-out {
 body.is-admin .role-admin {
   display: block;
 }
+
+.page.active {
+  display: block;
+}
+/* 
+.page {
+  display: none;
+} */

@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="style.css" />
     <title>Full-Stack App (Student Build)</title>
   </head>
+
   <body class="not-authenticated">
     <!-- Navigation bar -->
     <nav
@@ -74,6 +75,7 @@
 
     <!-- Main Content -->
     <main class="my-md-4 mx-md-5">
+      <!-- Home Page -->
       <section class="page active" id="home-page">
         <h2>Welcome to Full-Stack App</h2>
         <p class="fw-medium">
@@ -95,6 +97,45 @@
         <button type="button" class="btn btn-primary">
           Get Started <span><i class="bi bi-arrow-right"></i></span>
         </button>
+      </section>
+
+      <!-- Register Page -->
+      <section class="page" id="register-page">
+        <h2>Register Account</h2>
+        <form class="container-fluid">
+          <div class="mb-3">
+            <label for="firstName" class="form-label">First Name</label>
+            <input type="text" class="form-control" id="firstName" required />
+          </div>
+          <div class="mb-3">
+            <label for="lastName" class="form-label">Last Name</label>
+            <input type="text" class="form-control" id="lastName" required />
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" required />
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input
+              type="password"
+              class="form-control"
+              id="password"
+              required
+            />
+          </div>
+          <div class="d-flex gap-3">
+            <button type="submit" class="btn btn-success">Sign Up</button>
+            <button type="button" class="btn btn-outline-secondary">
+              Cancel
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Verify Email Page -->
+      <section class="page" id="verify-page">
+        
       </section>
     </main>
 
