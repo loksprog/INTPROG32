@@ -36,3 +36,7 @@ body.is-admin .role-admin {
 .page {
   display: none;
 } */
+
+.temp-hide {
+    display: none;
+}
