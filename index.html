@@ -221,7 +221,7 @@
       </section>
 
       <!-- Profile Page -->
-      <section class="page" id="profilePage">
+      <section class="page temp-hide" id="profilePage">
         <h2>My Profile</h2>
         <div class="card">
           <div class="card-body">
@@ -246,12 +246,12 @@
         </div>
       </section>
 
-      <!-- Employees Page -->
+      <!-- Employees Page (admin) -->
       <section class="page" id="employeesPage">
         <!-- top-section -->
-        <div class="d-flex mb-4">
+        <div class="d-flex justify-content-between mb-4">
           <h2 class="mb-0">Employees</h2>
-          <button type="button" id="addEmpBtn" class="btn btn-success ms-auto">
+          <button type="button" id="addEmpBtn" class="btn btn-success">
             <i class="bi bi-plus"></i>
             Add Employee
           </button>
@@ -269,16 +269,93 @@
                 <th>Actions</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
+            <tbody id="empBodyTable">
+              <tr id="emptyEmp">
                 <td colspan="5" class="text-center">No employees</td>
               </tr>
             </tbody>
           </table>
         </div>
 
-        <!--  -->
+        <!-- Add/Edit Employee -->
+        <div class="card">
+          <div class="card-header">
+            <span class="mb-3">Add/Edit Employee</span>
+          </div>
+          <div class="card-body">
+            <form id="addEmp-form">
+              <div class="mb-3">
+                <label for="empId" class="form-label">Employee ID</label>
+                <input type="text" class="form-control" id="empId" required />
+              </div>
 
+              <div class="mb-3">
+                <label for="empEmail" class="form-label">User Email</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="empEmail"
+                  required
+                />
+              </div>
+
+              <div class="mb-3">
+                <label for="empPosition" class="form-label">Position</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="empPosition"
+                  required
+                />
+              </div>
+
+              <div class="mb-3">
+                <label for="empDepartment" class="form-label">Department</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="empDepartment"
+                  required
+                />
+              </div>
+
+              <div class="mb-3">
+                <label for="empHireDate" class="form-label">Hire Date</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  id="empHireDate"
+                  required
+                />
+              </div>
+
+              <div class="d-flex gap-3">
+                <button type="submit" class="btn btn-primary" id="empSaveBtn">
+                  Save
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  id="empCancelBtn"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- Departments (admin) -->
+      <section class="page" id="departmentPage">
+        <!-- top-section -->
+        <div class="d-flex justify-content-between mb-4">
+          <h2 class="mb-0">Department</h2>
+          <button type="button" id="addDepBtn" class="btn btn-success">
+            <i class="bi bi-plus"></i>
+            Add Department
+          </button>
+        </div>
 
       </section>
     </main>
