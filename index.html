@@ -3,7 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="https://fonts.googleapis.com/css?family=Roboto:100,200,300,regular,500,600,700,800,900,100italic,200italic,300italic,italic,500italic,600italic,700italic,800italic,900italic" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:100,200,300,regular,500,600,700,800,900,100italic,200italic,300italic,italic,500italic,600italic,700italic,800italic,900italic"
+      rel="stylesheet"
+    />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -34,7 +37,7 @@
           <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse " id="navbarTarget">
+        <div class="collapse navbar-collapse" id="navbarTarget">
           <div class="navbar-nav ms-auto flex-column">
             <a href="#" class="nav-link logged-out">Login</a>
             <a href="#" class="nav-link logged-out">Register</a>
@@ -44,17 +47,30 @@
     </nav>
 
     <!-- Main Content -->
-    <main>
-      <h2>Welcome to Full-Stack App</h2>
-      <p class="fw-medium">A static prototype before backend integration. Simulates: </p>
-      <ul>
-        <li>Email registration + fake verification</li>
-        <li>Login with JWT-like token simulation</li>
-        <li>Role-based UI (Admin/User)</li>
-        <li>CRUD for Employees, Departments, Requests</li>
-      </ul>
-    </main>
+    <main class="my-md-4 mx-md-5">
+      <section class="page active" id="home-page">
+        <h2>Welcome to Full-Stack App</h2>
+        <p class="fw-medium">
+          A static prototype before backend integration. Simulates:
+        </p>
+        <ul>
+          <li>Email registration + fake verification</li>
+          <li>Login with JWT-like token simulation</li>
+          <li>Role-based UI (Admin/User)</li>
+          <li>CRUD for Employees, Departments, Requests</li>
+        </ul>
 
+        <div class="message-container alert alert-info">
+          <i class="bi bi-exclamation-triangle-fill"></i>
+          <strong>Note:</strong> All data is stored in
+          <code>localStorage</code>. Refresh to reset.
+        </div>
+
+        <button type="button" class="btn btn-primary">
+          Get Started <span><i class="bi bi-arrow-right"></i></span>
+        </button>
+      </section>
+    </main>
 
     <!-- Bootstrap 5 JS Bundle -->
     <script

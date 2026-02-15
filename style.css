@@ -1,6 +1,14 @@
+:root {
+    --warning: #ffd000;
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
     font-family: roboto;
+}
+
+.bi-exclamation-triangle-fill {
+    color: var(--warning);
 }
