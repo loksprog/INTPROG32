@@ -30,18 +30,44 @@
         <a href="#" class="navbar-brand">Full-Stack App (Luke Harvey Umpad)</a>
         <button
           type="button"
-          class="navbar-toggler"
+          class="navbar-toggler role-logged-out"
           data-bs-toggle="collapse"
           data-bs-target="#navbarTarget"
         >
           <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarTarget">
+        <div class="collapse navbar-collapse role-logged-out" id="navbarTarget">
           <div class="navbar-nav ms-auto flex-column">
-            <a href="#" class="nav-link logged-out">Login</a>
-            <a href="#" class="nav-link logged-out">Register</a>
+            <a href="#" class="nav-link role-logged-out">Login</a>
+            <a href="#" class="nav-link role-logged-out">Register</a>
           </div>
+        </div>
+
+        <!-- Dropdown with username -->
+        <div class="dropdown role-logged-in" data-bs-theme="light">
+          <button
+            type="button"
+            class="btn btn-dark dropdown-toggle"
+            data-bs-toggle="dropdown"
+          >
+            Admin
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end shadow-light">
+            <li><a href="#" class="dropdown-item">Profile</a></li>
+            <li><a href="#" class="dropdown-item role-admin">Employees</a></li>
+            <li><a href="#" class="dropdown-item role-admin">Accounts</a></li>
+            <li>
+              <a href="#" class="dropdown-item role-admin">Departments</a>
+            </li>
+            <li><a href="#" class="dropdown-item">My Requests</a></li>
+            <li><hr class="dropdown-divider" /></li>
+            <li>
+              <a href="#" class="dropdown-item"
+                ><span class="text-danger">Logout</span>
+              </a>
+            </li>
+          </ul>
         </div>
       </div>
     </nav>
