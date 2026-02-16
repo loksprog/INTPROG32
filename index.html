@@ -247,7 +247,7 @@
       </section>
 
       <!-- Employees Page (admin) -->
-      <section class="page" id="employeesPage">
+      <section class="pag temp-hide" id="employeesPage">
         <!-- top-section -->
         <div class="d-flex justify-content-between mb-4">
           <h2 class="mb-0">Employees</h2>
@@ -278,7 +278,7 @@
         </div>
 
         <!-- Add/Edit Employee -->
-        <div class="card">
+        <div class="card d-none">
           <div class="card-header">
             <span class="mb-3">Add/Edit Employee</span>
           </div>
@@ -347,16 +347,73 @@
       </section>
 
       <!-- Departments (admin) -->
-      <section class="page" id="departmentPage">
+      <section class="page temp-hide" id="departmentPage">
         <!-- top-section -->
         <div class="d-flex justify-content-between mb-4">
-          <h2 class="mb-0">Department</h2>
+          <h2 class="mb-0">Departments</h2>
           <button type="button" id="addDepBtn" class="btn btn-success">
             <i class="bi bi-plus"></i>
             Add Department
           </button>
         </div>
 
+         <!-- table -->
+        <div class="table-responsive mb-3">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Position</th>
+                <th>Dept</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="depBodyTable">
+              <tr id="emptyDep">
+                <td colspan="5" class="text-center">No departments</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Add/Edit Department -->
+        <div class="card d-none">
+          <div class="card-header">
+            <span class="mb-3">Add/Edit Department</span>
+          </div>
+          <div class="card-body">
+            <form id="addEmp-form">
+              <div class="mb-3">
+                <label for="depName" class="form-label">Name</label>
+                <input type="text" class="form-control" id="depName" required />
+              </div>
+
+              <div class="mb-3">
+                <label for="depDescription" class="form-label">Description</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="depDescription"
+                  required
+                />
+              </div>
+
+              <div class="d-flex gap-3">
+                <button type="submit" class="btn btn-primary" id="depSaveBtn">
+                  Save
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  id="depCancelBtn"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        
       </section>
     </main>
 
