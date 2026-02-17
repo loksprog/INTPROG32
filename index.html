@@ -417,7 +417,7 @@
       </section>
 
       <!-- Accounts Page(admin) -->
-      <section class="page" id="accountsPage">
+      <section class="page temp-hide" id="accountsPage">
         <!-- top-section -->
         <div class="d-flex justify-content-between mb-4">
           <h2 class="mb-0">Accounts</h2>
@@ -448,7 +448,7 @@
         </div>
 
         <!-- Add/Edit Department -->
-        <div class="card">
+        <div class="card d-none">
           <div class="card-header">
             <span class="mb-3">Add/Edit Account</span>
           </div>
@@ -456,18 +456,26 @@
             <form id="addEmp-form">
               <div class="mb-3">
                 <label for="depFirstName" class="form-label">First Name</label>
-                <input type="text" class="form-control" id="depFirstName" required />
+                <input
+                  type="text"
+                  class="form-control"
+                  id="depFirstName"
+                  required
+                />
               </div>
 
               <div class="mb-3">
                 <label for="depLastName" class="form-label">Last Name</label>
-                <input type="text" class="form-control" id="depLastName" required />
+                <input
+                  type="text"
+                  class="form-control"
+                  id="depLastName"
+                  required
+                />
               </div>
 
               <div class="mb-3">
-                <label for="accEmail" class="form-label"
-                  >Email</label
-                >
+                <label for="accEmail" class="form-label">Email</label>
                 <input
                   type="email"
                   class="form-control"
@@ -477,9 +485,7 @@
               </div>
 
               <div class="mb-3">
-                <label for="accPassword" class="form-label"
-                  >Password</label
-                >
+                <label for="accPassword" class="form-label">Password</label>
                 <input
                   type="password"
                   class="form-control"
@@ -489,9 +495,7 @@
               </div>
 
               <div class="mb-3">
-                <label for="accRole" class="form-label"
-                  >Role</label
-                >
+                <label for="accRole" class="form-label">Role</label>
                 <input
                   type="email"
                   class="form-control"
@@ -501,8 +505,14 @@
               </div>
 
               <div class="mb-3 form-check">
-                <input type="checkbox" class="form-check-input" id="verifiedCheck" >
-                <label for="verifiedCheck" class="form-check-label">Verified</label>
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  id="verifiedCheck"
+                />
+                <label for="verifiedCheck" class="form-check-label"
+                  >Verified</label
+                >
               </div>
 
               <div class="d-flex gap-3">
@@ -518,6 +528,118 @@
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- Request Page -->
+      <section class="page" id="requestPage">
+        <!-- top-section -->
+        <div class="d-flex justify-content-between mb-4">
+          <h2 class="mb-0">My Requests</h2>
+          <button
+            type="button"
+            id="newReqBtn"
+            class="btn btn-success"
+            data-bs-toggle="modal"
+            data-bs-target="#requestModal"
+          >
+            <i class="bi bi-plus"></i>
+            New Request
+          </button>
+        </div>
+
+        <div id="requests" class="mb-3">
+          <span id="emptyRequests">You have no requests yet.</span>
+        </div>
+
+        <button
+          type="button"
+          class="btn btn-success"
+          data-bs-toggle="modal"
+          data-bs-target="#requestModal"
+        >
+          Create One
+        </button>
+
+        <!-- New Request Modal -->
+        <div class="modal fade" id="requestModal">
+          <div class="modal-dialog modal-dialog-centered" style="max-width: 650px;">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h3 class="modal-title">New Request</h3>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                ></button>
+              </div>
+
+              <div class="modal-body">
+                <form id="reqModal-form">
+                  <div class="mb-4">
+                    <label for="equipmentType" class="form-label h5"
+                      >Type</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="equipmentType"
+                    />
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label h5">Items</label>
+
+                    <!-- Add/Remove Items -->
+                    <div class="itemsContainer mb-3">
+                      <div class="input-group">
+                        <input
+                          type="text"
+                          id="itemName"
+                          class="form-control"
+                          placeholder="Item Name"
+                        />
+                        <input
+                          type="number"
+                          id="itemAmount"
+                          class="form-control flex-grow-0 w-25"
+                          value="1"
+                        />
+                        <button type="button" class="btn btn-outline-secondary">
+                          <i class="bi bi-plus-lg"></i>
+                        </button>
+                      </div>
+                    </div>
+
+                    <div class="itemsContainer mb-3">
+                      <div class="input-group">
+                        <input
+                          type="text"
+                          id="itemName"
+                          class="form-control"
+                          placeholder="Item Name"
+                        />
+                        <input
+                          type="number"
+                          id="itemAmount"
+                          class="form-control flex-grow-0 w-25"
+                          value="1"
+                        />
+                        <button type="button" class="btn btn-outline-danger">
+                          <i class="bi bi-x-lg"></i>
+                        </button>
+                      </div>
+                    </div>
+
+                    <div class="mb-3">
+                      <button class="btn btn-primary" type="submit">Submit Request</button>
+                    </div>
+
+                  </div>
+                </form>
+              </div>
+            </div>
           </div>
         </div>
       </section>
