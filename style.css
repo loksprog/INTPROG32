@@ -32,11 +32,7 @@ body.is-admin .role-admin {
 .page.active {
   display: block;
 }
-/* 
+
 .page {
   display: none;
-} */
-
-.temp-hide {
-    display: none;
 }
