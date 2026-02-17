@@ -103,7 +103,7 @@
       </section>
 
       <!-- Register Page -->
-      <section class="page temp-hide" id="registerPage">
+      <section class="page" id="registerPage">
         <h2>Register Account</h2>
         <form id="register-form">
           <div class="mb-3">
@@ -153,7 +153,7 @@
       </section>
 
       <!-- Verify Email Page -->
-      <section class="page temp-hide" id="verifyPage">
+      <section class="page" id="verifyPage">
         <h2>Verify Your Email</h2>
         <div class="alert alert-success">
           <i class="bi bi-check-square-fill text-success"></i>
@@ -178,7 +178,7 @@
       </section>
 
       <!-- Login Page -->
-      <section class="page temp-hide" id="loginPage">
+      <section class="page" id="loginPage">
         <div id="verified-alert" class="alert alert-success d-none">
           <i class="bi bi-check-square-fill text-success"></i>
           <span>Email verified! You may now log in. </span>
@@ -221,7 +221,7 @@
       </section>
 
       <!-- Profile Page -->
-      <section class="page temp-hide" id="profilePage">
+      <section class="page" id="profilePage">
         <h2>My Profile</h2>
         <div class="card">
           <div class="card-body">
@@ -247,7 +247,7 @@
       </section>
 
       <!-- Employees Page (admin) -->
-      <section class="pag temp-hide" id="employeesPage">
+      <section class="page" id="employeesPage">
         <!-- top-section -->
         <div class="d-flex justify-content-between mb-4">
           <h2 class="mb-0">Employees</h2>
@@ -347,7 +347,7 @@
       </section>
 
       <!-- Departments Page(admin) -->
-      <section class="page temp-hide" id="departmentPage">
+      <section class="page" id="departmentPage">
         <!-- top-section -->
         <div class="d-flex justify-content-between mb-4">
           <h2 class="mb-0">Departments</h2>
@@ -417,7 +417,7 @@
       </section>
 
       <!-- Accounts Page(admin) -->
-      <section class="page temp-hide" id="accountsPage">
+      <section class="page" id="accountsPage">
         <!-- top-section -->
         <div class="d-flex justify-content-between mb-4">
           <h2 class="mb-0">Accounts</h2>
@@ -533,7 +533,7 @@
       </section>
 
       <!-- Request Page -->
-      <section class="page" id="requestPage">
+      <section class="age" id="requestsPage">
         <!-- top-section -->
         <div class="d-flex justify-content-between mb-4">
           <h2 class="mb-0">My Requests</h2>
@@ -564,7 +564,10 @@
 
         <!-- New Request Modal -->
         <div class="modal fade" id="requestModal">
-          <div class="modal-dialog modal-dialog-centered" style="max-width: 650px;">
+          <div
+            class="modal-dialog modal-dialog-centered"
+            style="max-width: 650px"
+          >
             <div class="modal-content">
               <div class="modal-header">
                 <h3 class="modal-title">New Request</h3>
@@ -578,9 +581,10 @@
               <div class="modal-body">
                 <form id="reqModal-form">
                   <div class="mb-4">
+                    <h5>Items</h5>
                     <label for="equipmentType" class="form-label h5"
-                      >Type</label
-                    >
+                      >Type
+                    </label>
                     <input
                       type="text"
                       class="form-control"
@@ -588,8 +592,8 @@
                     />
                   </div>
 
-                  <div class="mb-3">
-                    <label class="form-label h5">Items</label>
+                  <div class="mb-3">          
+                    <h5>Items</h5>
 
                     <!-- Add/Remove Items -->
                     <div class="itemsContainer mb-3">
@@ -607,35 +611,16 @@
                           value="1"
                         />
                         <button type="button" class="btn btn-outline-secondary">
-                          <i class="bi bi-plus-lg"></i>
-                        </button>
-                      </div>
-                    </div>
-
-                    <div class="itemsContainer mb-3">
-                      <div class="input-group">
-                        <input
-                          type="text"
-                          id="itemName"
-                          class="form-control"
-                          placeholder="Item Name"
-                        />
-                        <input
-                          type="number"
-                          id="itemAmount"
-                          class="form-control flex-grow-0 w-25"
-                          value="1"
-                        />
-                        <button type="button" class="btn btn-outline-danger">
-                          <i class="bi bi-x-lg"></i>
+                          <i class="bi bi-plus"></i>
                         </button>
                       </div>
                     </div>
 
                     <div class="mb-3">
-                      <button class="btn btn-primary" type="submit">Submit Request</button>
+                      <button class="btn btn-primary" type="submit">
+                        Submit Request
+                      </button>
                     </div>
-
                   </div>
                 </form>
               </div>
