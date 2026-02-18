@@ -1,5 +1,9 @@
 let currentUser = null;
 
+window.db = {
+  accounts: [],
+};
+
 function navigateTo(hash) {
   window.location.hash = hash;
 }
@@ -32,7 +36,10 @@ function handleRouting() {
   }
 
   // Blocks non-admins
-  if (adminRoutes.includes(pageName) && (!currentUser || currentUser.role !== "admin")) {
+  if (
+    adminRoutes.includes(pageName) &&
+    (!currentUser || currentUser.role !== "admin")
+  ) {
     window.location.hash = "#/";
     return;
   }
@@ -52,3 +59,13 @@ function handleRouting() {
 // Call handleRouting
 window.addEventListener("hashchange", handleRouting);
 window.addEventListener("load", handleRouting);
+
+// Authentication System
+
+// Registration
+const registerForm = document.getElementById("register-form"); 
+
+registerForm.addEventListener("submit", function(event) {
+  event.preventDefault();
+});
+
