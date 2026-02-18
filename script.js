@@ -61,11 +61,47 @@ window.addEventListener("hashchange", handleRouting);
 window.addEventListener("load", handleRouting);
 
 // Authentication System
-
 // Registration
-const registerForm = document.getElementById("register-form"); 
+const registerForm = document.getElementById("register-form");
 
-registerForm.addEventListener("submit", function(event) {
+registerForm.addEventListener("submit", (event) => {
   event.preventDefault();
-});
 
+  // Retrieve Inputs
+  const reg_firstName = document.getElementById("reg-firstName").value.trim();
+  const reg_lastName = document.getElementById("reg-lastName").value.trim();
+  const reg_email = document.getElementById("reg-email").value.trim();
+  const reg_password = document.getElementById("reg-password").value.trim();
+
+  // Password validation
+  if (reg_password.length < 6) {
+    alert("Password must be at least 6 characters");
+    return;
+  }
+
+  // Check if the Email already exists
+  const isEmailExists = window.db.accounts.find((account) => {
+    return account.email === reg_email;
+  });
+
+  if (isEmailExists) {
+    alert("Email is already registered.");
+    return;
+  }
+
+  const newAccount = {
+    firstName: reg_firstName,
+    lastName: reg_lastName,
+    email: reg_email,
+    password: reg_password,
+    role: "employee",
+    verified: false,
+  };
+
+  // Store email in `localStorage.unverified_email`
+  window.db.accounts.push(newAccount);
+  localStorage.setItem("unverified_email", reg_email);
+
+  // Navigate to `#/verify-email`
+  window.location.hash = "#/verify";
+});
