@@ -8,6 +8,11 @@ function navigateTo(hash) {
   window.location.hash = hash;
 }
 
+// Get started button
+document.getElementById("getStartedBtn").addEventListener("click", () => {
+  navigateTo("#/login");
+});
+
 function handleRouting() {
   // Reads the current hush
   let hash = window.location.hash;
@@ -54,6 +59,18 @@ function handleRouting() {
   if (activePage) {
     activePage.classList.add("active");
   }
+
+  if (pageName === 'verify') {
+    const email = localStorage.getItem("unverified_email");
+
+    if (!email) {
+      window.location.hash = "#/";
+      return;
+    }
+
+    const showMessage = document.getElementById("verify-message");
+    showMessage.textContent = "Verification sent to " + email + ".";
+  }
 }
 
 // Call handleRouting
@@ -98,10 +115,22 @@ registerForm.addEventListener("submit", (event) => {
     verified: false,
   };
 
-  // Store email in `localStorage.unverified_email`
   window.db.accounts.push(newAccount);
+  
+  // Store email in `localStorage.unverified_email` (after registration)
   localStorage.setItem("unverified_email", reg_email);
 
   // Navigate to `#/verify-email`
   window.location.hash = "#/verify";
+});
+
+// Email Verification (Simulated)
+
+const simulateBtn = document.getElementById("simulateBtn");
+
+simulateBtn.addEventListener("click", () => {
+  // Get stored Email
+  const storedEmail = localStorage.getItem("unverified_email"); 
+
+
 });
