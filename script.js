@@ -60,6 +60,7 @@ function handleRouting() {
     activePage.classList.add("active");
   }
 
+  // Verify Page
   if (pageName === "verify") {
     const email = localStorage.getItem("unverified_email");
 
@@ -70,6 +71,18 @@ function handleRouting() {
 
     const showMessage = document.getElementById("verify-message");
     showMessage.textContent = "Verification sent to " + email + ".";
+  }
+
+  // Login Page
+  if (pageName === "login") {
+    const justVerified = localStorage.getItem("just_verified");
+
+    if (justVerified === "true") {
+      const alertBox = document.getElementById("verified-alert");
+      alertBox.classList.remove("d-none");
+
+      localStorage.removeItem("just_verified");
+    }
   }
 }
 
