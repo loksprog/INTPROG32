@@ -88,7 +88,27 @@ function handleRouting() {
 
 // Call handleRouting
 window.addEventListener("hashchange", handleRouting);
-window.addEventListener("load", handleRouting);
+window.addEventListener("load", () => {
+  const authToken = localStorage.getItem("auth_token");
+
+  if (authToken) {
+    // Find user with this email
+    const user = window.db.accounts.find((acc) => {
+      return acc.email === authToken;
+    });
+
+    if (user && user.verified) {
+      setAuthState(true, user);
+    } else {
+      localStorage.removeItem("auth_token");
+      setAuthState(false);
+    }
+  } else {
+    setAuthState(false);
+  }
+
+  handleRouting();
+});
 
 // ======================
 // Authentication System
@@ -205,7 +225,6 @@ loginForm.addEventListener("submit", (event) => {
 });
 
 // Auth State Management
-
 function setAuthState(isAuth, user) {
   if (isAuth) {
     currentUser = user;
