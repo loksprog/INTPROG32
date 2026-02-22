@@ -36,7 +36,7 @@ function handleRouting() {
 
   // Redirects unauthenticated users away from protected routes
   if (protectedRoutes.includes(pageName) && !currentUser) {
-    window.location.hash = "#/login";
+    navigateTo("#/login");
     return;
   }
 
@@ -45,7 +45,7 @@ function handleRouting() {
     adminRoutes.includes(pageName) &&
     (!currentUser || currentUser.role !== "admin")
   ) {
-    window.location.hash = "#/";
+    navigateTo("#/");
     return;
   }
 
@@ -64,7 +64,7 @@ function handleRouting() {
     const email = localStorage.getItem("unverified_email");
 
     if (!email) {
-      window.location.hash = "#/";
+      navigateTo("#/");
       return;
     }
 
@@ -121,7 +121,7 @@ registerForm.addEventListener("submit", (event) => {
   localStorage.setItem("unverified_email", reg_email);
 
   // Navigate to `#/verify-email`
-  window.location.hash = "#/verify";
+  navigateTo("#/verify");
 });
 
 // Email Verification (Simulated)
