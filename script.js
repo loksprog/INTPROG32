@@ -203,3 +203,27 @@ loginForm.addEventListener("submit", (event) => {
   // Redirect to profile page
   navigateTo("#/profile");
 });
+
+// Auth State Management
+
+function setAuthState(isAuth, user) {
+  if (isAuth) {
+    currentUser = user;
+
+    // Update body classes
+    document.body.classList.remove("not-authenticated");
+    document.body.classList.add("authenticated");
+
+    // Check if admin
+    if (user && user.role === "admin") {
+      document.body.classList.add("is-admin");
+    } else {
+      document.body.classList.remove("is-admin");
+    }
+  } else {
+    // user logged out
+    currentUser = null;
+    document.body.classList.remove("authenticated", "is-admin");
+    document.body.classList.add("not-authenticated");
+  }
+}
