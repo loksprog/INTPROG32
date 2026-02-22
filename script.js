@@ -60,7 +60,7 @@ function handleRouting() {
     activePage.classList.add("active");
   }
 
-  if (pageName === 'verify') {
+  if (pageName === "verify") {
     const email = localStorage.getItem("unverified_email");
 
     if (!email) {
@@ -116,7 +116,7 @@ registerForm.addEventListener("submit", (event) => {
   };
 
   window.db.accounts.push(newAccount);
-  
+
   // Store email in `localStorage.unverified_email` (after registration)
   localStorage.setItem("unverified_email", reg_email);
 
@@ -130,7 +130,30 @@ const simulateBtn = document.getElementById("simulateBtn");
 
 simulateBtn.addEventListener("click", () => {
   // Get stored Email
-  const storedEmail = localStorage.getItem("unverified_email"); 
+  const storedEmail = localStorage.getItem("unverified_email");
 
+  if (!storedEmail) {
+    alert("No email to verify!");
+  }
 
+  const account = window.db.accounts.find((acc) => {
+    return acc.email === storedEmail;
+  });
+
+  if (!account) {
+    alert("Account not found.");
+    return;
+  }
+
+  // Mark Email as verified
+  account.verified = true;
+
+  // Flag
+  localStorage.setItem("just_verified", "true");
+
+  // remove email from LS
+  localStorage.removeItem("unverified_email");
+
+  // Redirect to login
+  navigateTo("#/login");
 });
