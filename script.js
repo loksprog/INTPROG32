@@ -246,3 +246,10 @@ function setAuthState(isAuth, user) {
     document.body.classList.add("not-authenticated");
   }
 }
+
+// Logout
+document.getElementById("logout-btn").addEventListener("click", () => {
+  localStorage.removeItem("auth_token");
+  setAuthState(false);
+  navigateTo("#/");
+});
