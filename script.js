@@ -90,7 +90,9 @@ function handleRouting() {
 window.addEventListener("hashchange", handleRouting);
 window.addEventListener("load", handleRouting);
 
+// ======================
 // Authentication System
+// ======================
 // Registration
 const registerForm = document.getElementById("register-form");
 
@@ -138,7 +140,6 @@ registerForm.addEventListener("submit", (event) => {
 });
 
 // Email Verification (Simulated)
-
 const simulateBtn = document.getElementById("simulateBtn");
 
 simulateBtn.addEventListener("click", () => {
@@ -169,4 +170,36 @@ simulateBtn.addEventListener("click", () => {
 
   // Redirect to login
   navigateTo("#/login");
+});
+
+// Login
+const loginForm = document.getElementById("login-form");
+loginForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  const loginEmail = document.getElementById("login-form").value.trim();
+  const loginPassword = document.getElementById("login-password").value.trim();
+
+  const account = window.db.accounts.find((acc) => {
+    return (
+      acc.email === loginEmail &&
+      acc.password === loginPassword &&
+      acc.verified === true
+    );
+  });
+
+  // Check if account exists
+  if (!account) {
+    alert("Invalid credentials or account not verified.");
+    return;
+  }
+
+  // Save auth token to localStorage
+  localStorage.setItem("auth_token", loginEmail);
+
+  // Set authentication state
+  setAuthState(true, account);
+
+  // Redirect to profile page
+  navigateTo("#/profile");
 });
