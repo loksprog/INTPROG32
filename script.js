@@ -177,7 +177,7 @@ const loginForm = document.getElementById("login-form");
 loginForm.addEventListener("submit", (event) => {
   event.preventDefault();
 
-  const loginEmail = document.getElementById("login-form").value.trim();
+  const loginEmail = document.getElementById("login-email").value.trim();
   const loginPassword = document.getElementById("login-password").value.trim();
 
   const account = window.db.accounts.find((acc) => {
