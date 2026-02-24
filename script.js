@@ -268,6 +268,11 @@ function setAuthState(isAuth, user) {
     } else {
       document.body.classList.remove("is-admin");
     }
+    
+    const dropdownToggle = document.querySelector(".navbar .dropdown-toggle");
+    if (dropdownToggle) {
+      dropdownToggle.textContent = user.firstName + " " + user.lastName;
+    }
   } else {
     // user logged out
     currentUser = null;
