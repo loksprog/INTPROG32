@@ -271,7 +271,7 @@
             <thead>
               <tr>
                 <th>ID</th>
-                <th>Name</th>
+                <th>User Email</th>
                 <th>Position</th>
                 <th>Dept</th>
                 <th>Actions</th>
@@ -285,10 +285,10 @@
           </table>
         </div>
 
-        <!-- Add/Edit Employee -->
-        <div class="card d-none">
+        <!-- Add/Edit Employee Form -->
+        <div class="card d-none" id="empFormCard">
           <div class="card-header">
-            <span class="mb-3">Add/Edit Employee</span>
+            <span id="empFormTitle">Add Employee</span>
           </div>
           <div class="card-body">
             <form id="addEmp-form">
@@ -319,12 +319,9 @@
 
               <div class="mb-3">
                 <label for="empDepartment" class="form-label">Department</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="empDepartment"
-                  required
-                />
+                <select class="form-select" id="empDepartment" required>
+                  <!-- Options populated by JavaScript -->
+                </select>
               </div>
 
               <div class="mb-3">
