@@ -364,8 +364,61 @@ function renderProfile() {
 const editProfileBtn = document.getElementById("edit-profile-button");
 
 editProfileBtn.addEventListener("click", () => {
-  alert("Edit Profile feature not implemented yet");
+  // Pre-fill form with current user data
+  document.getElementById("edit-firstName").value = currentUser.firstName;
+  document.getElementById("edit-lastName").value = currentUser.lastName;
+
+  // Show modal
+  const modal = new bootstrap.Modal(
+    document.getElementById("editProfileModal"),
+  );
+  modal.show();
 });
+
+// Edit Profile Form Submit
+document
+  .getElementById("edit-profile-form")
+  .addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    // Get new values
+    const newFirstName = document.getElementById("edit-firstName").value.trim();
+    const newLastName = document.getElementById("edit-lastName").value.trim();
+
+    if (!newFirstName || !newLastName) {
+      showToast("Please fill in all fields!", "error");
+      return;
+    }
+
+    // Update currentUser
+    currentUser.firstName = newFirstName;
+    currentUser.lastName = newLastName;
+
+    // Find and update in database
+    const accountIndex = window.db.accounts.findIndex(
+      (acc) => acc.email === currentUser.email,
+    );
+    if (accountIndex !== -1) {
+      window.db.accounts[accountIndex].firstName = newFirstName;
+      window.db.accounts[accountIndex].lastName = newLastName;
+      saveToStorage();
+    }
+
+    renderProfile();
+
+    // Update dropdown username
+    const dropdownToggle = document.querySelector(".navbar .dropdown-toggle");
+    if (dropdownToggle) {
+      dropdownToggle.textContent = newFirstName + " " + newLastName;
+    }
+
+    const modal = bootstrap.Modal.getInstance(
+      document.getElementById("editProfileModal"),
+    );
+    modal.hide();
+
+    showToast("Profile updated successfully!", "success");
+  });
 
 // =====================
 // Admin Features (CRUD)
