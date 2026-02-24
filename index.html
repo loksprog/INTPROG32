@@ -434,43 +434,55 @@
           </table>
         </div>
 
-        <!-- Add/Edit Department -->
-        <div class="card d-none" id="depFormCard">
-          <div class="card-header">
-            <span class="mb-3">Add/Edit Department</span>
-          </div>
-          <div class="card-body">
-            <form id="addDep-form">
-              <div class="mb-3">
-                <label for="depName" class="form-label">Name</label>
-                <input type="text" class="form-control" id="depName" required />
-              </div>
-
-              <div class="mb-3">
-                <label for="depDescription" class="form-label"
-                  >Description</label
-                >
-                <input
-                  type="text"
-                  class="form-control"
-                  id="depDescription"
-                  required
-                />
-              </div>
-
-              <div class="d-flex gap-3">
-                <button type="submit" class="btn btn-primary" id="depSaveBtn">
-                  Save
-                </button>
+        <!-- Add/Edit Department Modal -->
+        <div class="modal fade" id="addDepartmentModal">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="department-form-title">
+                  Add Department
+                </h5>
                 <button
                   type="button"
-                  class="btn btn-secondary"
-                  id="depCancelBtn"
-                >
-                  Cancel
-                </button>
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                ></button>
               </div>
-            </form>
+              <div class="modal-body">
+                <form id="add-department-form">
+                  <div class="mb-3">
+                    <label for="dept-name" class="form-label">Name</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="dept-name"
+                      required
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <label for="dept-description" class="form-label"
+                      >Description</label
+                    >
+                    <textarea
+                      class="form-control"
+                      id="dept-description"
+                      rows="3"
+                      required
+                    ></textarea>
+                  </div>
+                  <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
           </div>
         </div>
       </section>

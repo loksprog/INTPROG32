@@ -97,7 +97,7 @@ function handleRouting() {
   }
 
   // Departments Page
-  if (pageName === "departments") {
+  if (pageName === "department") {
     renderDepartmentsList();
   }
 
@@ -578,8 +578,16 @@ function deleteAccount(index) {
 }
 
 // Departments
+let editingDepartmentIndex = null;
+
 function renderDepartmentsList() {
   const tableBody = document.getElementById("departments-table-body");
+
+  if (window.db.departments.length === 0) {
+    tableBody.innerHTML =
+      '<tr><td colspan="3" class="text-center">No departments</td></tr>';
+    return;
+  }
 
   tableBody.innerHTML = "";
 
@@ -599,9 +607,113 @@ function renderDepartmentsList() {
   });
 }
 
+// Show Add Department Modal
 document.getElementById("add-department-btn").addEventListener("click", () => {
-  alert("Add Department feature not implemented yet");
+  editingDepartmentIndex = null;
+  document.getElementById("department-form-title").textContent =
+    "Add Department";
+  document.getElementById("add-department-form").reset();
+
+  const modal = new bootstrap.Modal(
+    document.getElementById("addDepartmentModal"),
+  );
+  modal.show();
 });
+
+// Add/Edit Department Form Submit
+document
+  .getElementById("add-department-form")
+  .addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const deptName = document.getElementById("dept-name").value.trim();
+    const deptDescription = document
+      .getElementById("dept-description")
+      .value.trim();
+
+    if (!deptName || !deptDescription) {
+      showToast("Please fill in all fields!", "error");
+      return;
+    }
+
+    if (editingDepartmentIndex !== null) {
+      // Editing existing department
+      window.db.departments[editingDepartmentIndex].name = deptName;
+      window.db.departments[editingDepartmentIndex].description =
+        deptDescription;
+      editingDepartmentIndex = null;
+      showToast("Department updated successfully!", "success");
+    } else {
+      const nameExists = window.db.departments.find(
+        (dept) => dept.name.toLowerCase() === deptName.toLowerCase(),
+      );
+      if (nameExists) {
+        showToast("Department name already exists!", "error");
+        return;
+      }
+
+      const newId =
+        window.db.departments.length > 0
+          ? Math.max(...window.db.departments.map((d) => d.id)) + 1
+          : 1;
+
+      const newDepartment = {
+        id: newId,
+        name: deptName,
+        description: deptDescription,
+      };
+
+      window.db.departments.push(newDepartment);
+      showToast("Department added successfully!", "success");
+    }
+
+    saveToStorage();
+    renderDepartmentsList();
+
+    // Close modal
+    const modal = bootstrap.Modal.getInstance(
+      document.getElementById("addDepartmentModal"),
+    );
+    modal.hide();
+  });
+
+// Edit Department
+function editDepartment(index) {
+  editingDepartmentIndex = index;
+  const dept = window.db.departments[index];
+
+  // Pre-fill form
+  document.getElementById("dept-name").value = dept.name;
+  document.getElementById("dept-description").value = dept.description;
+
+  document.getElementById("department-form-title").textContent =
+    "Edit Department";
+
+  const modal = new bootstrap.Modal(
+    document.getElementById("addDepartmentModal"),
+  );
+  modal.show();
+}
+
+// Delete Department
+function deleteDepartment(index) {
+  const dept = window.db.departments[index];
+
+  const hasEmployees = window.db.employees.some(
+    (emp) => emp.departmentId === dept.id,
+  );
+  if (hasEmployees) {
+    showToast("Cannot delete department with existing employees!", "error");
+    return;
+  }
+
+  if (confirm(`Are you sure you want to delete ${dept.name}?`)) {
+    window.db.departments.splice(index, 1);
+    saveToStorage();
+    renderDepartmentsList();
+    showToast("Department deleted successfully!", "success");
+  }
+}
 
 // Employees
 let editingEmployeeIndex = null;
