@@ -547,8 +547,22 @@
           </button>
         </div>
 
-        <div id="requests" class="mb-3">
-          <span id="emptyRequests">You have no requests yet.</span>
+        <div class="table-responsive mb-3">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Type</th>
+                <th>Items</th>
+              </tr>
+            </thead>
+            <tbody id="requestsTableBody">
+              <tr id="emptyRequests">
+                <td colspan="4" class="text-center">
+                  You have no requests yet.
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
 
         <!-- New Request Modal -->
@@ -595,6 +609,7 @@
                           id="itemAmount"
                           class="form-control flex-grow-0 w-25"
                           value="1"
+                          min="1"
                         />
                         <button
                           type="button"
