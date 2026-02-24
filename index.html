@@ -551,15 +551,6 @@
           <span id="emptyRequests">You have no requests yet.</span>
         </div>
 
-        <button
-          type="button"
-          class="btn btn-success"
-          data-bs-toggle="modal"
-          data-bs-target="#requestModal"
-        >
-          Create One
-        </button>
-
         <!-- New Request Modal -->
         <div class="modal fade" id="requestModal">
           <div
@@ -605,17 +596,25 @@
                           class="form-control flex-grow-0 w-25"
                           value="1"
                         />
-                        <button type="button" class="btn btn-outline-secondary">
+                        <button
+                          type="button"
+                          class="btn btn-outline-secondary"
+                          id="add-item-button"
+                        >
                           <i class="bi bi-plus"></i>
                         </button>
                       </div>
                     </div>
+                  </div>
 
-                    <div class="mb-3">
-                      <button class="btn btn-primary" type="submit">
-                        Submit Request
-                      </button>
-                    </div>
+                  <div class="mb-3">
+                    <button
+                      class="btn btn-primary"
+                      type="submit"
+                      id="submitreq-button"
+                    >
+                      Submit Request
+                    </button>
                   </div>
                 </form>
               </div>
