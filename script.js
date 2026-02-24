@@ -118,6 +118,7 @@ window.addEventListener("load", () => {
 // ======================
 // Authentication System
 // ======================
+
 // Registration
 const registerForm = document.getElementById("register-form");
 
