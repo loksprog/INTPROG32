@@ -154,7 +154,7 @@ registerForm.addEventListener("submit", (event) => {
 
   // Password validation
   if (reg_password.length < 6) {
-    alert("Password must be at least 6 characters");
+    showToast("Password must be at least 6 characters", "error");
     return;
   }
 
@@ -164,7 +164,7 @@ registerForm.addEventListener("submit", (event) => {
   });
 
   if (isEmailExists) {
-    alert("Email is already registered.");
+    showToast("Email already exists!", "error");
     return;
   }
 
@@ -195,7 +195,7 @@ simulateBtn.addEventListener("click", () => {
   const storedEmail = localStorage.getItem("unverified_email");
 
   if (!storedEmail) {
-    alert("No email to verify!");
+    showToast("No email to verify!", "error");
   }
 
   const account = window.db.accounts.find((acc) => {
@@ -203,7 +203,7 @@ simulateBtn.addEventListener("click", () => {
   });
 
   if (!account) {
-    alert("Account not found.");
+    showToast("Account not found!", "error");
     return;
   }
 
@@ -239,7 +239,7 @@ loginForm.addEventListener("submit", (event) => {
 
   // Check if account exists
   if (!account) {
-    alert("Invalid credentials or account not verified.");
+    showToast("Invalid credentials or account not verified.", "error");
     return;
   }
 
@@ -268,7 +268,7 @@ function setAuthState(isAuth, user) {
     } else {
       document.body.classList.remove("is-admin");
     }
-    
+
     const dropdownToggle = document.querySelector(".navbar .dropdown-toggle");
     if (dropdownToggle) {
       dropdownToggle.textContent = user.firstName + " " + user.lastName;
@@ -458,18 +458,18 @@ addAccForm.addEventListener("submit", (event) => {
   if (editingAccountIndex !== null) {
     // Editing existing account
     window.db.accounts[editingAccountIndex] = accountData;
-    alert("Account updated successfully!");
+    showToast("Account updated successfully!", "success");
   } else {
     // Adding new account
     const emailExists = window.db.accounts.find(
       (acc) => acc.email === accountData.email,
     );
     if (emailExists) {
-      alert("Email already exists!");
+      showToast("Email already exists!", "error");
       return;
     }
     window.db.accounts.push(accountData);
-    alert("Account added successfully!");
+    showToast("Account added successfully!", "success");
   }
 
   saveToStorage();
@@ -492,14 +492,14 @@ function resetPassword(index) {
   }
 
   if (newPassword.length < 6) {
-    alert("Password must be at least 6 characters!");
+    showToast("Password must be at least 6 characters!", "error");
     return;
   }
 
   account.password = newPassword;
   saveToStorage();
 
-  alert("Password reset successfully!");
+  showToast("Password reset successfully!", "success");
 }
 
 // Delete account function
@@ -508,7 +508,7 @@ function deleteAccount(index) {
 
   // Prevent self-deletion
   if (currentUser && account.email === currentUser.email) {
-    alert("You cannot delete your own account!");
+    showToast("You cannot delete your own account", "error");
     return;
   }
 
@@ -520,7 +520,7 @@ function deleteAccount(index) {
     window.db.accounts.splice(index, 1);
     saveToStorage();
     renderAccountsList();
-    alert("Account deleted successfully!");
+    showToast("Account deleted successfully!", "success");
   }
 }
 
@@ -635,7 +635,7 @@ document.getElementById("addEmp-form").addEventListener("submit", (event) => {
     (acc) => acc.email === employeeData.userEmail,
   );
   if (!accountExists) {
-    alert("User email must match an existing account!");
+    showToast("User email must match an existing account!", "error");
     return;
   }
 
@@ -647,7 +647,7 @@ document.getElementById("addEmp-form").addEventListener("submit", (event) => {
       (emp) => emp.employeeId === employeeData.employeeId,
     );
     if (idExists) {
-      alert("Employee ID already exists!");
+      showToast("Employee ID already exists!", "error");
       return;
     }
 
@@ -661,7 +661,7 @@ document.getElementById("addEmp-form").addEventListener("submit", (event) => {
   document.getElementById("empFormCard").classList.add("d-none");
   document.getElementById("addEmp-form").reset();
 
-  alert("Employee saved successfully!");
+  showToast("Employee saved successfully!", "success");
 });
 
 // Edit Employee
@@ -694,7 +694,7 @@ function deleteEmployee(index) {
     window.db.employees.splice(index, 1);
     saveToStorage();
     renderEmployeesTable();
-    alert("Employee deleted successfully!");
+    showToast("Employee deleted successfully!", "success");
   }
 }
 
@@ -788,7 +788,7 @@ document.getElementById("reqModal-form").addEventListener("submit", (event) => {
   const requestType = document.getElementById("requestType").value.trim();
 
   if (!requestType) {
-    alert("Please enter a request type!");
+    showToast("Please enter a request type!", "warning");
     return;
   }
 
@@ -805,7 +805,7 @@ document.getElementById("reqModal-form").addEventListener("submit", (event) => {
   });
 
   if (items.length === 0) {
-    alert("Please add at least one item!");
+    showToast("Please add at least one item!", "warning");
     return;
   }
 
@@ -861,5 +861,42 @@ document.getElementById("reqModal-form").addEventListener("submit", (event) => {
   );
   modal.hide();
 
-  alert("Request submitted successfully!");
+  showToast("Request submitted successfully!", "success");
 });
+
+// Toast Notifications
+function showToast(message, type = "info") {
+  const toastEl = document.getElementById("liveToast");
+  const toastMessage = document.getElementById("toast-message");
+
+  // Set background color based on type
+  let bgClass = "bg-primary";
+
+  switch (type) {
+    case "success":
+      bgClass = "bg-success";
+      break;
+    case "error":
+    case "danger":
+      bgClass = "bg-danger";
+      break;
+    case "warning":
+      bgClass = "bg-warning";
+      break;
+    case "info":
+      bgClass = "bg-info";
+      break;
+  }
+
+  toastMessage.textContent = message;
+
+  // Apply background color (text is white by default)
+  toastEl.className = "toast align-items-center text-white border-0 " + bgClass;
+
+  // Show toast
+  const toast = new bootstrap.Toast(toastEl, {
+    autohide: true,
+    delay: 3000,
+  });
+  toast.show();
+}
