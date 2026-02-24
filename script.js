@@ -253,3 +253,53 @@ document.getElementById("logout-btn").addEventListener("click", () => {
   setAuthState(false);
   navigateTo("#/");
 });
+
+// ===================================
+// Data Persistence with localStorage
+// ===================================
+
+const STORAGE_KEY = "ipt_demo_v1";
+
+function loadFromStorage() {
+  const stored = localStorage.getItem(STORAGE_KEY);
+
+  if (stored) {
+    try {
+      window.db = JSON.parse(stored);
+    } catch (error) {
+      console.error("Corrupt data, seeding defaults");
+      seedDefaultData();
+    }
+  } else {
+    seedDefaultData();
+  }
+}
+
+function seedDefaultData() {
+  window.db = {
+    accounts: [
+      {
+        firstName: "Admin",
+        lastName: "User",
+        email: "admin@example.com",
+        password: "Password123!",
+        role: "admin",
+        verified: true,
+      },
+    ],
+    departments: [
+      { id: 1, name: "Engineering", description: "Software development" },
+      { id: 2, name: "HR", description: "Human Resources" },
+    ],
+    employees: [],
+    requests: [],
+  };
+
+  saveToStorage();
+}
+
+function saveToStorage() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(window.db));
+}
+
+loadFromStorage();
