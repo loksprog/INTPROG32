@@ -105,6 +105,11 @@ function handleRouting() {
   if (pageName === "employees") {
     renderEmployeesTable();
   }
+
+  // Requests Page
+  if (pageName === "requests") {
+    renderRequestsTable();
+  }
 }
 
 // Call handleRouting
@@ -547,21 +552,24 @@ let editingEmployeeIndex = null;
 function renderEmployeesTable() {
   const tableBody = document.getElementById("empBodyTable");
   const emptyRow = document.getElementById("emptyEmp");
-  
+
   tableBody.innerHTML = "";
-  
+
   if (window.db.employees.length === 0) {
-    tableBody.innerHTML = '<tr id="emptyEmp"><td colspan="5" class="text-center">No employees</td></tr>';
+    tableBody.innerHTML =
+      '<tr id="emptyEmp"><td colspan="5" class="text-center">No employees</td></tr>';
     return;
   }
-  
+
   window.db.employees.forEach((employee, index) => {
     // Find department name
-    const dept = window.db.departments.find(d => d.id === employee.departmentId);
+    const dept = window.db.departments.find(
+      (d) => d.id === employee.departmentId,
+    );
     const deptName = dept ? dept.name : "N/A";
-    
+
     const row = document.createElement("tr");
-    
+
     row.innerHTML = `
       <td>${employee.employeeId}</td>
       <td>${employee.userEmail}</td>
@@ -572,7 +580,7 @@ function renderEmployeesTable() {
         <button class="btn btn-sm btn-danger" onclick="deleteEmployee(${index})">Delete</button>
       </td>
     `;
-    
+
     tableBody.appendChild(row);
   });
 }
@@ -581,8 +589,8 @@ function renderEmployeesTable() {
 function populateDepartmentDropdown() {
   const deptSelect = document.getElementById("empDepartment");
   deptSelect.innerHTML = "";
-  
-  window.db.departments.forEach(dept => {
+
+  window.db.departments.forEach((dept) => {
     const option = document.createElement("option");
     option.value = dept.id;
     option.textContent = dept.name;
@@ -609,41 +617,45 @@ document.getElementById("empCancelBtn").addEventListener("click", () => {
 // Add/Edit Employee Form Submit
 document.getElementById("addEmp-form").addEventListener("submit", (event) => {
   event.preventDefault();
-  
+
   const employeeData = {
     employeeId: document.getElementById("empId").value.trim(),
     userEmail: document.getElementById("empEmail").value.trim(),
     position: document.getElementById("empPosition").value.trim(),
     departmentId: parseInt(document.getElementById("empDepartment").value),
-    hireDate: document.getElementById("empHireDate").value
+    hireDate: document.getElementById("empHireDate").value,
   };
-  
-  const accountExists = window.db.accounts.find(acc => acc.email === employeeData.userEmail);
+
+  const accountExists = window.db.accounts.find(
+    (acc) => acc.email === employeeData.userEmail,
+  );
   if (!accountExists) {
     alert("User email must match an existing account!");
     return;
   }
-  
+
   if (editingEmployeeIndex !== null) {
     window.db.employees[editingEmployeeIndex] = employeeData;
     editingEmployeeIndex = null;
   } else {
-    const idExists = window.db.employees.find(emp => emp.employeeId === employeeData.employeeId);
+    const idExists = window.db.employees.find(
+      (emp) => emp.employeeId === employeeData.employeeId,
+    );
     if (idExists) {
       alert("Employee ID already exists!");
       return;
     }
-    
+
     window.db.employees.push(employeeData);
   }
-  
+
   saveToStorage();
   renderEmployeesTable();
-  
+
   // Hide form and reset
   document.getElementById("empFormCard").classList.add("d-none");
   document.getElementById("addEmp-form").reset();
-  
+
   alert("Employee saved successfully!");
 });
 
@@ -651,17 +663,17 @@ document.getElementById("addEmp-form").addEventListener("submit", (event) => {
 function editEmployee(index) {
   editingEmployeeIndex = index;
   const employee = window.db.employees[index];
-  
+
   // Populate department dropdown first
   populateDepartmentDropdown();
-  
+
   // Pre-fill form
   document.getElementById("empId").value = employee.employeeId;
   document.getElementById("empEmail").value = employee.userEmail;
   document.getElementById("empPosition").value = employee.position;
   document.getElementById("empDepartment").value = employee.departmentId;
   document.getElementById("empHireDate").value = employee.hireDate;
-  
+
   // Change form title and show form
   document.getElementById("empFormTitle").textContent = "Edit Employee";
   document.getElementById("empFormCard").classList.remove("d-none");
@@ -670,11 +682,179 @@ function editEmployee(index) {
 // Delete Employee
 function deleteEmployee(index) {
   const employee = window.db.employees[index];
-  
-  if (confirm(`Are you sure you want to delete employee ${employee.employeeId}?`)) {
+
+  if (
+    confirm(`Are you sure you want to delete employee ${employee.employeeId}?`)
+  ) {
     window.db.employees.splice(index, 1);
     saveToStorage();
     renderEmployeesTable();
     alert("Employee deleted successfully!");
   }
 }
+
+// =============
+// User Requests
+// =============
+
+// Render Requests Table
+function renderRequestsTable() {
+  const tableBody = document.getElementById("requestsTableBody");
+
+  // Filter requests for current user
+  const userRequests = window.db.requests.filter(
+    (req) => req.employeeEmail === currentUser.email,
+  );
+
+  // Check if there are requests
+  if (userRequests.length === 0) {
+    tableBody.innerHTML =
+      '<tr><td colspan="2" class="text-center">You have no requests yet.</td></tr>';
+    return;
+  }
+
+  // Clear and render requests
+  tableBody.innerHTML = "";
+
+  userRequests.forEach((request) => {
+    // Format items for display
+    const itemsList = request.items
+      .map((item) => `${item.name} (${item.qty})`)
+      .join(", ");
+
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+      <td>${request.type}</td>
+      <td>${itemsList}</td>
+    `;
+
+    tableBody.appendChild(row);
+  });
+}
+
+// Add/Remove Items
+document.getElementById("itemsContainer").addEventListener("click", (e) => {
+  // Add item button
+  if (e.target.closest(".add-item-btn")) {
+    const container = document.getElementById("itemsContainer");
+
+    // Create new item row with X button
+    const newRow = document.createElement("div");
+    newRow.className = "input-group mb-2 item-row";
+    newRow.innerHTML = `
+      <input
+        type="text"
+        class="form-control item-name"
+        placeholder="Item Name"
+        required
+      />
+      <input
+        type="number"
+        class="form-control item-qty"
+        style="max-width: 100px"
+        placeholder="Qty"
+        value="1"
+        min="1"
+        required
+      />
+      <button
+        type="button"
+        class="btn btn-outline-danger remove-item-btn"
+      >
+        <i class="bi bi-x"></i>
+      </button>
+    `;
+
+    container.appendChild(newRow);
+  }
+
+  // Remove item button
+  if (e.target.closest(".remove-item-btn")) {
+    const row = e.target.closest(".item-row");
+    row.remove();
+  }
+});
+
+// Submit Request Form
+document.getElementById("reqModal-form").addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  const requestType = document.getElementById("requestType").value.trim();
+
+  if (!requestType) {
+    alert("Please enter a request type!");
+    return;
+  }
+
+  const itemRows = document.querySelectorAll(".item-row");
+  const items = [];
+
+  itemRows.forEach((row) => {
+    const name = row.querySelector(".item-name").value.trim();
+    const qty = parseInt(row.querySelector(".item-qty").value);
+
+    if (name && qty > 0) {
+      items.push({ name, qty });
+    }
+  });
+
+  if (items.length === 0) {
+    alert("Please add at least one item!");
+    return;
+  }
+
+  const newRequest = {
+    type: requestType,
+    items: items,
+    status: "Pending",
+    date: new Date().toISOString().split("T")[0], // YYYY-MM-DD format
+    employeeEmail: currentUser.email,
+  };
+
+  // Save to database
+  window.db.requests.push(newRequest);
+  saveToStorage();
+
+  // Re-render table
+  renderRequestsTable();
+
+  // Reset form and close modal
+  document.getElementById("reqModal-form").reset();
+
+  // Reset items container to single row
+  const itemsContainer = document.getElementById("itemsContainer");
+  itemsContainer.innerHTML = `
+    <div class="input-group mb-2 item-row">
+      <input
+        type="text"
+        class="form-control item-name"
+        placeholder="Item Name"
+        required
+      />
+      <input
+        type="number"
+        class="form-control item-qty"
+        style="max-width: 100px"
+        placeholder="Qty"
+        value="1"
+        min="1"
+        required
+      />
+      <button
+        type="button"
+        class="btn btn-outline-secondary add-item-btn"
+      >
+        <i class="bi bi-plus"></i>
+      </button>
+    </div>
+  `;
+
+  // Close modal
+  const modal = bootstrap.Modal.getInstance(
+    document.getElementById("requestModal"),
+  );
+  modal.hide();
+
+  alert("Request submitted successfully!");
+});
