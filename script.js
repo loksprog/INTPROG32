@@ -151,6 +151,7 @@ registerForm.addEventListener("submit", (event) => {
   };
 
   window.db.accounts.push(newAccount);
+  saveToStorage();
 
   // Store email in `localStorage.unverified_email` (after registration)
   localStorage.setItem("unverified_email", reg_email);
@@ -181,6 +182,7 @@ simulateBtn.addEventListener("click", () => {
 
   // Mark Email as verified
   account.verified = true;
+  saveToStorage();
 
   // Flag
   localStorage.setItem("just_verified", "true");
