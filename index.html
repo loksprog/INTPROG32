@@ -585,36 +585,33 @@
                 <form id="reqModal-form">
                   <div class="mb-4">
                     <h5>Items</h5>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="requestType"
-                    />
+                    <input type="text" class="form-control" id="requestType" />
                   </div>
 
                   <div class="mb-3">
                     <h5>Items</h5>
 
                     <!-- Add/Remove Items -->
-                    <div id="itemsContainer mb-3">
-                      <div class="input-group">
+                    <div id="itemsContainer" class=" mb-3">
+                      <div class="input-group mb-2 item-row">
                         <input
                           type="text"
-                          id="itemName"
-                          class="form-control"
+                          class="form-control item-name"
                           placeholder="Item Name"
+                          required
                         />
                         <input
                           type="number"
-                          id="itemAmount"
-                          class="form-control flex-grow-0 w-25"
+                          class="form-control item-qty"
+                          style="max-width: 100px"
+                          placeholder="Qty"
                           value="1"
                           min="1"
+                          required
                         />
                         <button
                           type="button"
-                          class="btn btn-outline-secondary"
-                          id="add-item-button"
+                          class="btn btn-outline-secondary add-item-btn"
                         >
                           <i class="bi bi-plus"></i>
                         </button>
