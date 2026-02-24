@@ -84,6 +84,11 @@ function handleRouting() {
       localStorage.removeItem("just_verified");
     }
   }
+
+  // Profile Page
+  if (pageName === "profile") {
+    renderProfile();
+  }
 }
 
 // Call handleRouting
@@ -305,3 +310,32 @@ function saveToStorage() {
 }
 
 loadFromStorage();
+
+// ============
+// Profile Page
+// ============
+
+function renderProfile() {
+  // Make sure user is logged in
+  if (!currentUser) {
+    navigateTo("#/login");
+    return;
+  }
+  
+  // Get profile display elements
+  const profileName = document.getElementById("profile-name");
+  const profileEmail = document.getElementById("profile-email");
+  const profileRole = document.getElementById("profile-role");
+  
+  // Display user information
+  profileName.textContent = currentUser.firstName + " " + currentUser.lastName;
+  profileEmail.textContent = currentUser.email;
+  profileRole.textContent = currentUser.role;
+}
+
+// Edit Profile button
+const editProfileBtn = document.getElementById("edit-profile-button");
+
+editProfileBtn.addEventListener("click", () => {
+  alert("Edit Profile feature not implemented yet");
+});
