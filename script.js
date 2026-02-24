@@ -13,6 +13,7 @@ document.getElementById("getStartedBtn").addEventListener("click", () => {
   navigateTo("#/login");
 });
 
+// Handles Routing
 function handleRouting() {
   // Reads the current hush
   let hash = window.location.hash;
@@ -93,6 +94,11 @@ function handleRouting() {
   // Accounts Page
   if (pageName === "accounts") {
     renderAccountsList();
+  }
+
+  // Departments Page
+  if (pageName === "departments") {
+    renderDepartmentsList();
   }
 }
 
@@ -350,6 +356,7 @@ editProfileBtn.addEventListener("click", () => {
 // Admin Features (CRUD)
 // =====================
 
+// Accounts
 const addAccBtn = document.getElementById("addAccBtn");
 const accountFormCard = document.getElementById("account-form-card");
 const accCancelBtn = document.getElementById("accCancelBtn");
@@ -376,27 +383,28 @@ accCancelBtn.addEventListener("click", () => {
 function renderAccountsList() {
   const tableBody = document.getElementById("accounts-table-body");
   tableBody.innerHTML = "";
-  
+
   if (window.db.accounts.length === 0) {
-    tableBody.innerHTML = '<tr><td colspan="5" class="text-center">No accounts</td></tr>';
+    tableBody.innerHTML =
+      '<tr><td colspan="5" class="text-center">No accounts</td></tr>';
     return;
   }
-  
+
   window.db.accounts.forEach((account, index) => {
     const row = document.createElement("tr");
-    
+
     row.innerHTML = `
       <td>${account.firstName} ${account.lastName}</td>
       <td>${account.email}</td>
       <td>${account.role}</td>
-      <td>${account.verified ? '✓' : '—'}</td>
+      <td>${account.verified ? "✓" : "—"}</td>
       <td>
         <button class="btn btn-sm btn-primary" onclick="editAccount(${index})">Edit</button>
         <button class="btn btn-sm btn-warning" onclick="resetPassword(${index})">Reset PW</button>
         <button class="btn btn-sm btn-danger" onclick="deleteAccount(${index})">Delete</button>
       </td>
     `;
-    
+
     tableBody.appendChild(row);
   });
 }
@@ -405,7 +413,7 @@ function renderAccountsList() {
 function editAccount(index) {
   editingAccountIndex = index;
   const account = window.db.accounts[index];
-  
+
   // Pre-fill form
   document.getElementById("accFirstName").value = account.firstName;
   document.getElementById("accLastName").value = account.lastName;
@@ -413,7 +421,7 @@ function editAccount(index) {
   document.getElementById("accPassword").value = account.password;
   document.getElementById("accRole").value = account.role;
   document.getElementById("verifiedCheck").checked = account.verified;
-  
+
   // Change title and show form
   document.getElementById("account-form-title").textContent = "Edit Account";
   accountFormCard.classList.remove("d-none");
@@ -422,23 +430,25 @@ function editAccount(index) {
 // Form submit - handles both add and edit
 addAccForm.addEventListener("submit", (event) => {
   event.preventDefault();
-  
+
   const accountData = {
     firstName: document.getElementById("accFirstName").value.trim(),
     lastName: document.getElementById("accLastName").value.trim(),
     email: document.getElementById("accEmail").value.trim(),
     password: document.getElementById("accPassword").value.trim(),
     role: document.getElementById("accRole").value,
-    verified: document.getElementById("verifiedCheck").checked
+    verified: document.getElementById("verifiedCheck").checked,
   };
-  
+
   if (editingAccountIndex !== null) {
     // Editing existing account
     window.db.accounts[editingAccountIndex] = accountData;
     alert("Account updated successfully!");
   } else {
     // Adding new account
-    const emailExists = window.db.accounts.find(acc => acc.email === accountData.email);
+    const emailExists = window.db.accounts.find(
+      (acc) => acc.email === accountData.email,
+    );
     if (emailExists) {
       alert("Email already exists!");
       return;
@@ -446,10 +456,10 @@ addAccForm.addEventListener("submit", (event) => {
     window.db.accounts.push(accountData);
     alert("Account added successfully!");
   }
-  
+
   saveToStorage();
   renderAccountsList();
-  
+
   // Hide form and reset
   accountFormCard.classList.add("d-none");
   addAccForm.reset();
@@ -461,33 +471,37 @@ addAccForm.addEventListener("submit", (event) => {
 function resetPassword(index) {
   const account = window.db.accounts[index];
   const newPassword = prompt("Enter new password (min 6 characters):");
-  
+
   if (!newPassword) {
     return; // User cancelled
   }
-  
+
   if (newPassword.length < 6) {
     alert("Password must be at least 6 characters!");
     return;
   }
-  
+
   account.password = newPassword;
   saveToStorage();
-  
+
   alert("Password reset successfully!");
 }
 
 // Delete account function
 function deleteAccount(index) {
   const account = window.db.accounts[index];
-  
+
   // Prevent self-deletion
   if (currentUser && account.email === currentUser.email) {
     alert("You cannot delete your own account!");
     return;
   }
-  
-  if (confirm(`Are you sure you want to delete ${account.firstName} ${account.lastName}?`)) {
+
+  if (
+    confirm(
+      `Are you sure you want to delete ${account.firstName} ${account.lastName}?`,
+    )
+  ) {
     window.db.accounts.splice(index, 1);
     saveToStorage();
     renderAccountsList();
@@ -495,3 +509,28 @@ function deleteAccount(index) {
   }
 }
 
+// Departments
+function renderDepartmentsList() {
+  const tableBody = document.getElementById("departments-table-body");
+
+  tableBody.innerHTML = "";
+
+  window.db.departments.forEach((dept, index) => {
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+      <td>${dept.name}</td>
+      <td>${dept.description}</td>
+      <td>
+        <button class="btn btn-sm btn-primary" onclick="editDepartment(${index})">Edit</button>
+        <button class="btn btn-sm btn-danger" onclick="deleteDepartment(${index})">Delete</button>
+      </td>
+    `;
+
+    tableBody.appendChild(row);
+  });
+}
+
+document.getElementById("add-department-btn").addEventListener("click", () => {
+  alert("Add Department feature not implemented yet");
+});
