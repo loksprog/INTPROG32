@@ -431,7 +431,7 @@
           <h2 class="mb-0">Accounts</h2>
           <button type="button" id="addAccBtn" class="btn btn-success">
             <i class="bi bi-plus"></i>
-            Add Accounts
+            Add Account
           </button>
         </div>
 
@@ -447,21 +447,17 @@
                 <th>Actions</th>
               </tr>
             </thead>
-            <tbody id="depBodyTable">
-              <tr id="emptyDep">
-                <td colspan="5" class="text-center">No departments</td>
-              </tr>
-            </tbody>
+            <tbody id="accounts-table-body"></tbody>
           </table>
         </div>
 
-        <!-- Add/Edit Department -->
-        <div class="card d-none">
+        <!-- Add/Edit Account Form -->
+        <div class="card d-none" id="account-form-card">
           <div class="card-header">
-            <span class="mb-3">Add/Edit Account</span>
+            <span id="account-form-title">Add Account</span>
           </div>
           <div class="card-body">
-            <form id="addEmp-form">
+            <form id="addAcc-form">
               <div class="mb-3">
                 <label for="accFirstName" class="form-label">First Name</label>
                 <input
@@ -498,18 +494,17 @@
                   type="password"
                   class="form-control"
                   id="accPassword"
+                  minlength="6"
                   required
                 />
               </div>
 
               <div class="mb-3">
                 <label for="accRole" class="form-label">Role</label>
-                <input
-                  type="email"
-                  class="form-control"
-                  id="accRole"
-                  required
-                />
+                <select class="form-select" id="accRole" required>
+                  <option value="employee">Employee</option>
+                  <option value="admin">Admin</option>
+                </select>
               </div>
 
               <div class="mb-3 form-check">
@@ -524,9 +519,7 @@
               </div>
 
               <div class="d-flex gap-3">
-                <button type="submit" class="btn btn-primary" id="accSaveBtn">
-                  Save
-                </button>
+                <button type="submit" class="btn btn-primary">Save</button>
                 <button
                   type="button"
                   class="btn btn-secondary"
