@@ -350,105 +350,120 @@ editProfileBtn.addEventListener("click", () => {
 // Admin Features (CRUD)
 // =====================
 
+const addAccBtn = document.getElementById("addAccBtn");
+const accountFormCard = document.getElementById("account-form-card");
+const accCancelBtn = document.getElementById("accCancelBtn");
+const addAccForm = document.getElementById("addAcc-form");
+
+let editingAccountIndex = null;
+
+// Add Account button - show form
+addAccBtn.addEventListener("click", () => {
+  editingAccountIndex = null;
+  document.getElementById("account-form-title").textContent = "Add Account";
+  addAccForm.reset();
+  accountFormCard.classList.remove("d-none");
+});
+
+// Cancel button - hide form
+accCancelBtn.addEventListener("click", () => {
+  accountFormCard.classList.add("d-none");
+  addAccForm.reset();
+  editingAccountIndex = null;
+});
+
+// Render accounts table
 function renderAccountsList() {
   const tableBody = document.getElementById("accounts-table-body");
-
-  // Clear existing rows
   tableBody.innerHTML = "";
-
-  // Loop through accounts and create rows
+  
+  if (window.db.accounts.length === 0) {
+    tableBody.innerHTML = '<tr><td colspan="5" class="text-center">No accounts</td></tr>';
+    return;
+  }
+  
   window.db.accounts.forEach((account, index) => {
     const row = document.createElement("tr");
-
+    
     row.innerHTML = `
       <td>${account.firstName} ${account.lastName}</td>
       <td>${account.email}</td>
       <td>${account.role}</td>
-      <td>${account.verified ? "✓" : "—"}</td>
+      <td>${account.verified ? '✓' : '—'}</td>
       <td>
         <button class="btn btn-sm btn-primary" onclick="editAccount(${index})">Edit</button>
         <button class="btn btn-sm btn-warning" onclick="resetPassword(${index})">Reset PW</button>
         <button class="btn btn-sm btn-danger" onclick="deleteAccount(${index})">Delete</button>
       </td>
     `;
-
+    
     tableBody.appendChild(row);
   });
 }
 
-const addAccountForm = document.getElementById("add-account-form");
+// Edit account function
+function editAccount(index) {
+  editingAccountIndex = index;
+  const account = window.db.accounts[index];
+  
+  // Pre-fill form
+  document.getElementById("accFirstName").value = account.firstName;
+  document.getElementById("accLastName").value = account.lastName;
+  document.getElementById("accEmail").value = account.email;
+  document.getElementById("accPassword").value = account.password;
+  document.getElementById("accRole").value = account.role;
+  document.getElementById("verifiedCheck").checked = account.verified;
+  
+  // Change title and show form
+  document.getElementById("account-form-title").textContent = "Edit Account";
+  accountFormCard.classList.remove("d-none");
+}
 
-// Add account form
-addAccountForm.addEventListener("submit", (event) => {
+// Form submit - handles both add and edit
+addAccForm.addEventListener("submit", (event) => {
   event.preventDefault();
-
+  
   const accountData = {
-    firstName: document.getElementById("acc-firstName").value.trim(),
-    lastName: document.getElementById("acc-lastName").value.trim(),
-    email: document.getElementById("acc-email").value.trim(),
-    password: document.getElementById("acc-password").value.trim(),
-    role: document.getElementById("acc-role").value,
-    verified: document.getElementById("acc-verified").checked,
+    firstName: document.getElementById("accFirstName").value.trim(),
+    lastName: document.getElementById("accLastName").value.trim(),
+    email: document.getElementById("accEmail").value.trim(),
+    password: document.getElementById("accPassword").value.trim(),
+    role: document.getElementById("accRole").value,
+    verified: document.getElementById("verifiedCheck").checked
   };
-
+  
   if (editingAccountIndex !== null) {
     // Editing existing account
     window.db.accounts[editingAccountIndex] = accountData;
-    editingAccountIndex = null;
-    document.getElementById("account-form-title").textContent = "Add Account";
+    alert("Account updated successfully!");
   } else {
     // Adding new account
-    const emailExists = window.db.accounts.find(
-      (acc) => acc.email === accountData.email,
-    );
+    const emailExists = window.db.accounts.find(acc => acc.email === accountData.email);
     if (emailExists) {
       alert("Email already exists!");
       return;
     }
     window.db.accounts.push(accountData);
+    alert("Account added successfully!");
   }
-
+  
   saveToStorage();
   renderAccountsList();
-  addAccountForm.reset();
-
-  const modal = bootstrap.Modal.getInstance(
-    document.getElementById("addAccountModal"),
-  );
-  modal.hide();
-
-  alert("Account saved successfully!");
+  
+  // Hide form and reset
+  accountFormCard.classList.add("d-none");
+  addAccForm.reset();
+  editingAccountIndex = null;
+  document.getElementById("account-form-title").textContent = "Add Account";
 });
 
-let editingAccountIndex = null;
-
-// Edit account form
-function editAccount(index) {
-  editingAccountIndex = index;
-  const account = window.db.accounts[index];
-
-  document.getElementById("acc-firstName").value = account.firstName;
-  document.getElementById("acc-lastName").value = account.lastName;
-  document.getElementById("acc-email").value = account.email;
-  document.getElementById("acc-password").value = account.password;
-  document.getElementById("acc-role").value = account.role;
-  document.getElementById("acc-verified").checked = account.verified;
-
-  // Change form title
-  document.getElementById("account-form-title").textContent = "Edit Account";
-
-  // Show modal
-  const modal = new bootstrap.Modal(document.getElementById("addAccountModal"));
-  modal.show();
-}
-
-// Reset Password
+// Reset password function
 function resetPassword(index) {
   const account = window.db.accounts[index];
   const newPassword = prompt("Enter new password (min 6 characters):");
   
   if (!newPassword) {
-    return; 
+    return; // User cancelled
   }
   
   if (newPassword.length < 6) {
@@ -462,7 +477,7 @@ function resetPassword(index) {
   alert("Password reset successfully!");
 }
 
-// Delete Account
+// Delete account function
 function deleteAccount(index) {
   const account = window.db.accounts[index];
   
